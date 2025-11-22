@@ -7,7 +7,7 @@ if (!isset($_SESSION['userdata'])) {
 global $request;
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
 
     <!-- Sidebar -->
     <?php include 'includes/sidebar.php'; ?>
