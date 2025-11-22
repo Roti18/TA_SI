@@ -16,10 +16,17 @@
 
         <hr>
 
+<<<<<<< HEAD
+    <a href="sub-kriteria"
+      class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'sub-kriteria' ? 'bg-blue-600 text-white' : '' ?>">
+      Data Sub Kriteria
+    </a>
+=======
         <a href="<?= route('kriteria'); ?>"
             class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'kriteria' ? 'bg-blue-600 text-white' : '' ?>">
             Data Kriteria
         </a>
+>>>>>>> 82712eb878ff42e34d801d9701aa99b7e7393061
 
         <a href="<?= route('sub-kriteria'); ?>"
             class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'sub-kriteria' ? 'bg-blue-600 text-white' : '' ?>">
