@@ -2,7 +2,7 @@
 <?php include "config/helpers.php" ?>
 
 <aside class="fixed top-0 left-0 w-64 h-screen overflow-y-auto bg-white shadow-lg border-r">
-  <div class="relative p-6 text-2xl font-bold border-b">
+  <div class="relative p-6 text-4xl font-bold border-b">
     SPK SAW
     <p class="text-sm text-gray-500">Siswa Berprestasi</p>
   </div>
@@ -40,7 +40,7 @@
       class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'perhitungan' ? 'bg-blue-600 text-white' : '' ?>">
       Data Perhitungan
     </a>
-    <a href="<?= route('hasil-akhir'); ?>"
+    <a href="<?= route('hasil'); ?>"
       class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'hasil-akhir' ? 'bg-blue-600 text-white' : '' ?>">
       Data Hasil Akhir
     </a>

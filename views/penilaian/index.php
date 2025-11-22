@@ -56,11 +56,6 @@ if (!isset($_SESSION['userdata'])) {
   <div class="flex-1 p-8">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold text-gray-800">Data Penilaian</h1>
-      <a href="tambahpenilaian"
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
-        <i data-lucide="plus" class="inline-block w-5 h-5 mr-2"></i>
-        Tambah Penilaian
-      </a>
     </div>
 
     <?php include "includes/notification.php"; ?>
@@ -94,10 +89,10 @@ if (!isset($_SESSION['userdata'])) {
           </div>
         </div>
         <div class="flex">
-          <a href="tambahpenilaian?siswa_id=<?= $siswa['id'] ?>"
-            class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg transition duration-300"
-            title="Tambah/Edit Penilaian">
-            <i data-lucide="plus" class="w-4 h-4"></i>
+          <a href="updatepenilaian?siswa_id=<?= $siswa['id'] ?>"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg transition duration-300"
+            title="Edit Penilaian">
+            <i data-lucide="edit" class="w-4 h-4"></i>
           </a>
         </div>
       </div>
@@ -107,51 +102,31 @@ if (!isset($_SESSION['userdata'])) {
         <table class="min-w-full bg-white">
           <thead class="bg-gray-50">
             <tr>
-              <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase">No</th>
-              <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
-              <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase">Kriteria</th>
-              <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase">Nilai Input</th>
-              <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase">Rating</th>
-              <th class="py-2 px-4 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
+              <th class="py-2 px-3 text-left text-xs font-medium text-gray-500 uppercase">No</th>
+              <th class="py-2 px-3 text-left text-xs font-medium text-gray-500 uppercase">Kode</th>
+              <th class="py-2 px-3 text-left text-xs font-medium text-gray-500 uppercase">Kriteria</th>
+              <th class="py-2 px-3 text-left text-xs font-medium text-gray-500 uppercase">Nilai Input</th>
             </tr>
           </thead>
           <tbody class="text-gray-700">
             <?php if (!empty($penilaians[$siswa['id']])): ?>
             <?php foreach ($penilaians[$siswa['id']] as $index => $nilai): ?>
             <tr class="hover:bg-gray-50 border-b">
-              <td class="py-3 px-4"><?= $index + 1 ?></td>
-              <td class="py-3 px-4">
-                <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2 py-1 rounded">
+              <td class="py-2 px-3"><?= $index + 1 ?></td>
+              <td class="py-2 px-3">
+                <span class="bg-gray-200 text-gray-800 text-xs font-semibold px-2 py-0.5 rounded">
                   <?= htmlspecialchars($nilai['kode']) ?>
                 </span>
               </td>
-              <td class="py-3 px-4 font-medium"><?= htmlspecialchars($nilai['kriteria_nama']) ?></td>
-              <td class="py-3 px-4"><?= htmlspecialchars($nilai['nilai_input']) ?></td>
-              <td class="py-3 px-4">
-                <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                  <?= htmlspecialchars($nilai['rating']) ?>
-                </span>
-              </td>
-              <td class="py-3 px-4">
-                <div class="flex items-center justify-center gap-2">
-                  <a href="updatepenilaian?id=<?= $nilai['id'] ?>"
-                    class="text-yellow-500 hover:text-yellow-600 transition duration-300" title="Edit">
-                    <i data-lucide="edit" class="w-4 h-4"></i>
-                  </a>
-                  <a href="hapuspenilaian?action=delete&id=<?= $nilai['id'] ?>"
-                    onclick="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?');"
-                    class="text-red-500 hover:text-red-600 transition duration-300" title="Hapus">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                  </a>
-                </div>
-              </td>
+              <td class="py-2 px-3 font-medium"><?= htmlspecialchars($nilai['kriteria_nama']) ?></td>
+              <td class="py-2 px-3"><?= htmlspecialchars($nilai['nilai_input']) ?></td>
             </tr>
             <?php endforeach; ?>
             <?php else: ?>
             <tr>
-              <td colspan="6" class="text-center py-6 text-gray-400">
+              <td colspan="4" class="text-center py-4 text-gray-400">
                 Belum ada penilaian.
-                <a href="tambahpenilaian?siswa_id=<?= $siswa['id'] ?>" class="text-blue-500 hover:underline">
+                <a href="updatepenilaian?siswa_id=<?= $siswa['id'] ?>" class="text-blue-500 hover:underline">
                   Tambah sekarang
                 </a>
               </td>
