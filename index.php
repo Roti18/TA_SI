@@ -30,6 +30,11 @@ $routes = [
     'tambahkriteria'=> 'views/kriteria/create.php',
     'updatekriteria'=> 'views/kriteria/edit.php',
     'hapuskriteria' => 'views/kriteria/delete.php',
+
+    'sub-kriteria'      => 'views/sub_kriteria/index.php',
+    'tambahsub-kriteria'=> 'views/sub_kriteria/create.php',
+    'updatesub-kriteria'=> 'views/sub_kriteria/edit.php',
+    'hapussub-kriteria' => 'views/sub_kriteria/delete.php',
 ];
 
 // 4. Cegah user masuk dashboard tanpa login

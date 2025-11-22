@@ -18,7 +18,7 @@
       Data Kriteria
     </a>
 
-    <a href="index.php?page=kriteria"
+    <a href="sub-kriteria"
       class="block p-3 rounded-lg hover:bg-blue-100 <?= $request == 'sub-kriteria' ? 'bg-blue-600 text-white' : '' ?>">
       Data Sub Kriteria
     </a>
