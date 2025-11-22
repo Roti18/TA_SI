@@ -21,8 +21,16 @@ $routes = [
     'proses-login'  => 'views/auth/proses-login.php',
     'logout'        => 'views/auth/logout.php',
     'profile'       => 'views/user/profil.php',
+
     'siswa'         => 'views/siswa/index.php',
-    'tambahsiswa'   => 'views/siswa/create.php'
+    'tambahsiswa'   => 'views/siswa/create.php',
+    'updatesiswa'   => 'views/siswa/edit.php',
+    'hapussiswa'    => 'views/siswa/delete.php',
+
+    'kriteria'      => 'views/kriteria/index.php',
+    'tambahkriteria'=> 'views/kriteria/create.php',
+    'updatekriteria'=> 'views/kriteria/edit.php',
+    'hapuskriteria' => 'views/kriteria/delete.php',
 ];
 
 // 4. Cegah user masuk dashboard tanpa login

@@ -2,85 +2,94 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 require __DIR__ . '/../../config/connect.php';
 include __DIR__ . '/../../functions/func.php';
 
-$title = "Edit Data Siswa";
+$title = "Edit Data Kriteria";
 
-$student_id = $_GET['id'] ?? null;
-if (!$student_id) {
+$kriteria_id = $_GET['id'] ?? null;
+if (!$kriteria_id) {
     echo "ID tidak valid.";
     exit;
 }
 
-$stmt = $conn->prepare("SELECT * FROM siswa WHERE id = ?");
-$stmt->bind_param("i", $student_id);
+$stmt = $conn->prepare("SELECT * FROM kriteria WHERE id = ?");
+$stmt->bind_param("i", $kriteria_id);
 $stmt->execute();
 $result = $stmt->get_result();
-$student = $result->fetch_assoc();
+$kriteria = $result->fetch_assoc();
 
-if (!$student) {
-    echo "Data siswa tidak ditemukan.";
+if (!$kriteria) {
+    echo "Data kriteria tidak ditemukan.";
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [
-        'nis'   => $_POST['nis'],
+        'kode'  => $_POST['kode'],
         'nama'  => $_POST['nama'],
-        'kelas' => $_POST['kelas']
+        'bobot' => $_POST['bobot'],
+        'jenis' => $_POST['jenis']
     ];
     
     $where = [
         'id' => $_POST['id']
     ];
     
-    updateData('siswa', $data, $where, 'siswa', 'edit.php?id=' . $_POST['id']);
+    updateData('kriteria', $data, $where, 'kriteria', 'updatekriteria?id=' . $_POST['id']);
 }
 
-$classes = ['XI A', 'XI B'];
+$jenisList = ['benefit', 'cost'];
 ?>
 
 <div class="min-h-screen flex bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
+
   <div class="flex-1 p-8">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-3xl font-bold text-gray-800">Edit Data Siswa</h1>
-      <a href="index.php"
+      <h1 class="text-3xl font-bold text-gray-800">Edit Data Kriteria</h1>
+      <a href="kriteria"
         class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
         <i data-lucide="arrow-left" class="inline-block w-5 h-5 mr-2"></i>
         Kembali
       </a>
     </div>
+
     <div class="bg-white rounded-lg shadow-lg p-6">
       <form method="POST">
-        <input type="hidden" name="id" value="<?= $student['id'] ?>">
+        <input type="hidden" name="id" value="<?= $kriteria['id'] ?>">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- NIS -->
+          <!-- Kode -->
           <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">NIS</label>
-            <input type="text" name="nis"
+            <label class="block text-gray-700 font-semibold mb-2">Kode</label>
+            <input type="text" name="kode"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              value="<?= htmlspecialchars($student['nis']) ?>" required>
+              value="<?= htmlspecialchars($kriteria['kode']) ?>" required>
           </div>
           <!-- Nama -->
           <div class="mb-4">
             <label class="block text-gray-700 font-semibold mb-2">Nama</label>
             <input type="text" name="nama"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
-              value="<?= htmlspecialchars($student['nama']) ?>" required>
+              value="<?= htmlspecialchars($kriteria['nama']) ?>" required>
           </div>
-          <!-- Kelas -->
+          <!-- Bobot -->
           <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
-            <select name="kelas"
+            <label class="block text-gray-700 font-semibold mb-2">Bobot</label>
+            <input type="number" name="bobot" step="0.01" min="0" max="1"
+              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+              value="<?= htmlspecialchars($kriteria['bobot']) ?>" required>
+          </div>
+          <!-- Jenis -->
+          <div class="mb-4">
+            <label class="block text-gray-700 font-semibold mb-2">Jenis</label>
+            <select name="jenis"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
-              <option disabled>Pilih Kelas</option>
-              <?php foreach ($classes as $kelas): ?>
-              <option value="<?= $kelas ?>" <?= ($kelas == $student['kelas']) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($kelas) ?>
+              <option disabled>Pilih Jenis</option>
+              <?php foreach ($jenisList as $jenis): ?>
+              <option value="<?= $jenis ?>" <?= ($jenis == $kriteria['jenis']) ? 'selected' : '' ?>>
+                <?= ucfirst($jenis) ?>
               </option>
               <?php endforeach; ?>
             </select>
@@ -95,7 +104,8 @@ $classes = ['XI A', 'XI B'];
           </button>
         </div>
       </form>
-      <?php include 'includes/footer.php'; ?>
     </div>
   </div>
+
+  <?php include 'includes/footer.php'; ?>
 </div>
