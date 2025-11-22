@@ -4,15 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "php -S localhost:8000",
-    "tw": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --watch",
-    "dev": "concurrently \"npm run server\" \"npm run tw\""
+    "tw": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.2.1",
     "tailwindcss": "^3.4.1"
   }
 }
