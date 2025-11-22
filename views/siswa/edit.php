@@ -28,8 +28,7 @@ if (!$student) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $data = [
     'nis'   => $_POST['nis'],
-    'nama'  => $_POST['nama'],
-    'kelas' => $_POST['kelas']
+    'nama'  => $_POST['nama']
   ];
 
   $where = [
@@ -39,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   updateData('siswa', $data, $where, 'siswa', 'edit.php?id=' . $_POST['id']);
 }
 
-$classes = ['XI A', 'XI B'];
 ?>
 
 <div class="ml-64 flex min-h-screen bg-gray-100">
@@ -71,19 +69,6 @@ $classes = ['XI A', 'XI B'];
             <input type="text" name="nama"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
               value="<?= htmlspecialchars($student['nama']) ?>" required>
-          </div>
-          <!-- Kelas -->
-          <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
-            <select name="kelas"
-              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
-              <option disabled>Pilih Kelas</option>
-              <?php foreach ($classes as $kelas): ?>
-                <option value="<?= $kelas ?>" <?= ($kelas == $student['kelas']) ? 'selected' : '' ?>>
-                  <?= htmlspecialchars($kelas) ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
           </div>
         </div>
         <!-- Submit -->
