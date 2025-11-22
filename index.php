@@ -19,11 +19,10 @@ $routes = [
     'dashboard'     => 'views/admin/dashboard.php',
     'login'         => 'views/auth/login.php',
     'proses-login'  => 'views/auth/proses-login.php',
+    'logout'        => 'views/auth/logout.php',
     'profile'       => 'views/user/profil.php',
-    'siswa'       => 'views/siswa/index.php',
-    'tambahsiswa'       => 'views/siswa/create.php',
-
-    // nanti tambah halaman lain di sini
+    'siswa'         => 'views/siswa/index.php',
+    'tambahsiswa'   => 'views/siswa/create.php'
 ];
 
 // 4. Cegah user masuk dashboard tanpa login
@@ -34,8 +33,7 @@ if ($request === 'dashboard' && !isset($_SESSION['userdata'])) {
 
 // 5. Cek apakah route ada
 if (!array_key_exists($request, $routes)) {
-    http_response_code(404);
-    echo "<h1>Halaman tidak ditemukan! (404)</h1>";
+    include __DIR__ . "/views/404.php";
     exit;
 }
 
