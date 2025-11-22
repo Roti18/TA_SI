@@ -1,12 +1,7 @@
 RewriteEngine On
-
-# 1. Mencegah akses langsung ke folder (listing directory)
 Options -Indexes
 
-# 2. Routing: Jika user akses /namafile, buka namafile.php secara internal
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [L]
 
-# 3. Opsional: Memaksa index.php jadi root "/"
-RewriteRule ^index\.php$ / [R=301,L]
+RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
