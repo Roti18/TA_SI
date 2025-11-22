@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 include __DIR__ . '/../../functions/func.php';
 
@@ -9,18 +9,18 @@ $title = "Tambah Data Kriteria";
 $jenisList = ['benefit', 'cost'];
 
 if (isset($_POST['kode'])) {
-    $data = [
-        'kode'  => $_POST['kode'],
-        'nama'  => $_POST['nama'],
-        'bobot' => $_POST['bobot'],
-        'jenis' => $_POST['jenis']
-    ];
-    
-    createData('kriteria', $data, 'kriteria', 'tambahkriteria');
+  $data = [
+    'kode'  => $_POST['kode'],
+    'nama'  => $_POST['nama'],
+    'bobot' => $_POST['bobot'],
+    'jenis' => $_POST['jenis']
+  ];
+
+  createData('kriteria', $data, 'kriteria', 'tambahkriteria');
 }
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
 
@@ -61,8 +61,8 @@ if (isset($_POST['kode'])) {
             <select name="jenis"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
               <option value="" disabled selected>Pilih Jenis</option>
-              <?php foreach($jenisList as $jenis): ?>
-              <option value="<?= htmlspecialchars($jenis) ?>"><?= ucfirst($jenis) ?></option>
+              <?php foreach ($jenisList as $jenis): ?>
+                <option value="<?= htmlspecialchars($jenis) ?>"><?= ucfirst($jenis) ?></option>
               <?php endforeach; ?>
             </select>
           </div>

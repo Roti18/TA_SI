@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require __DIR__ . '/../../config/connect.php';
@@ -11,8 +11,8 @@ $title = "Tambah Sub Kriteria";
 $kriteria_id = $_GET['kriteria_id'] ?? null;
 
 if (!$kriteria_id) {
-    echo "Kriteria ID tidak valid.";
-    exit;
+  echo "Kriteria ID tidak valid.";
+  exit;
 }
 
 // Ambil data kriteria untuk header
@@ -22,24 +22,24 @@ $stmt->execute();
 $kriteria = $stmt->get_result()->fetch_assoc();
 
 if (!$kriteria) {
-    echo "Kriteria tidak ditemukan.";
-    exit;
+  echo "Kriteria tidak ditemukan.";
+  exit;
 }
 
 if (isset($_POST['nama'])) {
-    $data = [
-        'kriteria_id' => $kriteria_id,
-        'nama'        => $_POST['nama'],
-        'min_value'   => $_POST['min_value'] !== '' ? $_POST['min_value'] : null,
-        'max_value'   => $_POST['max_value'] !== '' ? $_POST['max_value'] : null,
-        'rating'      => $_POST['rating']
-    ];
-    
-    createData('sub_kriteria', $data, 'sub-kriteria', 'tambahsub-kriteria?kriteria_id=' . $kriteria_id);
+  $data = [
+    'kriteria_id' => $kriteria_id,
+    'nama'        => $_POST['nama'],
+    'min_value'   => $_POST['min_value'] !== '' ? $_POST['min_value'] : null,
+    'max_value'   => $_POST['max_value'] !== '' ? $_POST['max_value'] : null,
+    'rating'      => $_POST['rating']
+  ];
+
+  createData('sub_kriteria', $data, 'sub-kriteria', 'tambahsub-kriteria?kriteria_id=' . $kriteria_id);
 }
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
 

@@ -12,7 +12,7 @@
             /* Biru Indigo */
             --secondary-color: #ff9800;
             /* Oranye */
-            --background-color: #1a1a2e;
+            --background-color: #676767ff;
             /* Biru Gelap/Ungu Tua */
             --text-color: #e0e0e0;
         }
