@@ -31,7 +31,7 @@ if (empty($siswa_id)) {
 }
 
 // Ambil data siswa
-$stmtSiswa = $conn->prepare("SELECT id, nis, nama, kelas FROM siswa WHERE id = ?");
+$stmtSiswa = $conn->prepare("SELECT id, nis, nama FROM siswa WHERE id = ?");
 $stmtSiswa->bind_param("i", $siswa_id);
 $stmtSiswa->execute();
 $resultSiswa = $stmtSiswa->get_result();
@@ -184,8 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h2 class="text-2xl font-bold"><?= htmlspecialchars($siswa['nama']) ?></h2>
           <div class="flex gap-4 mt-2 text-blue-100">
             <span>NIS: <strong><?= htmlspecialchars($siswa['nis']) ?></strong></span>
-            <span>•</span>
-            <span>Kelas: <strong><?= htmlspecialchars($siswa['kelas']) ?></strong></span>
+
           </div>
         </div>
       </div>

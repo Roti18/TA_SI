@@ -6,13 +6,11 @@ if (session_status() === PHP_SESSION_NONE) {
 include __DIR__ . '/../../functions/func.php';
 
 $title = "Tambah Data Siswa";
-$classes = ['XI A', 'XI B'];
 
 if (isset($_POST['nis'])) {
   $data = [
     'nis'   => $_POST['nis'],
-    'nama'  => $_POST['nama'],
-    'kelas' => $_POST['kelas']
+    'nama'  => $_POST['nama']
   ];
 
   createData('siswa', $data, 'siswa', 'tambahsiswa');
@@ -43,16 +41,6 @@ if (isset($_POST['nis'])) {
             <label class="block text-gray-700 font-semibold mb-2">Nama Lengkap</label>
             <input type="text" name="nama"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500" required>
-          </div>
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Kelas</label>
-            <select name="kelas"
-              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
-              <option value="" disabled selected>Pilih Kelas</option>
-              <?php foreach ($classes as $kelas): ?>
-                <option value="<?= htmlspecialchars($kelas) ?>"><?= htmlspecialchars($kelas) ?></option>
-              <?php endforeach; ?>
-            </select>
           </div>
         </div>
         <div class="mt-8 flex justify-end">

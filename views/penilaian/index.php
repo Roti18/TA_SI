@@ -82,7 +82,6 @@ if (!isset($_SESSION['userdata'])) {
             <?= htmlspecialchars($siswa['nama']) ?>
           </h2>
           <div class="mt-2 flex gap-4 text-sm text-gray-600">
-            <span>Kelas: <strong><?= htmlspecialchars($siswa['kelas']) ?></strong></span>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
               <?= count($penilaians[$siswa['id']]) ?> / <?= count($kriterias) ?> Kriteria Dinilai
             </span>
