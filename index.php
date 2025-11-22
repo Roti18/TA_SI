@@ -20,6 +20,8 @@ $routes = [
     'login'         => 'views/auth/login.php',
     'proses-login'  => 'views/auth/proses-login.php',
     'profile'       => 'views/user/profil.php',
+    'siswa'       => 'views/siswa/index.php',
+    'tambahsiswa'       => 'views/siswa/create.php',
 
     // nanti tambah halaman lain di sini
 ];

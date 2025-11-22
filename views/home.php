@@ -4,7 +4,7 @@
   Hello world!
 </h1>
 <div>
-  <i data-lucide="house" class="text-black w-6 h-6"></i>
+  <i data-lucide="house"></i>
 </div>
 
 <?php require_once 'includes/footer.php'; ?>
