@@ -1,8 +1,13 @@
 <?php
+require_once "config/connect.php";
 if (!isset($_SESSION['userdata'])) {
     header("Location: index.php?page=login");
     exit;
 }
+
+$students = mysqli_query($conn, "SELECT * FROM siswa");
+$kriterias = mysqli_query($conn, "SELECT * FROM kriteria");
+
 
 global $request;
 ?>
@@ -24,12 +29,12 @@ global $request;
 
                 <div class="bg-white p-6 shadow rounded-xl border">
                     <h3 class="text-gray-500">Total Siswa</h3>
-                    <p class="text-4xl font-bold mt-2">120</p>
+                    <p class="text-4xl font-bold mt-2"><?= mysqli_num_rows($students); ?></p>
                 </div>
 
                 <div class="bg-white p-6 shadow rounded-xl border">
                     <h3 class="text-gray-500">Kriteria</h3>
-                    <p class="text-4xl font-bold mt-2">4</p>
+                    <p class="text-4xl font-bold mt-2"><?= mysqli_num_rows($kriterias); ?></p>
                 </div>
 
                 <div class="bg-white p-6 shadow rounded-xl border">
