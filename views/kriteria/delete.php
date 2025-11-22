@@ -10,10 +10,10 @@ if (isset($_GET['action'])) {
     
     if ($action === 'delete' && isset($_GET['id'])) {
         $where = ['id' => $_GET['id']];
-        deleteData('siswa', $where, 'siswa', 'siswa');
+        deleteData('kriteria', $where, 'kriteria', 'kriteria');
     }
 }
 
-header("Location: siswa");
+header("Location: kriteria");
 exit;
 ?>
