@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require __DIR__ . '/../../config/connect.php';
@@ -11,14 +11,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if ($conn->connect_error) {
-    die("DEBUG: Koneksi Database Gagal: " . $conn->connect_error);
+  die("DEBUG: Koneksi Database Gagal: " . $conn->connect_error);
 }
 
 $query = "SELECT * FROM kriteria ORDER BY id ASC";
 $result = $conn->query($query);
 
 if (!$result) {
-    die("DEBUG: Error pada Query: '" . $query . "'. Pesan Error: " . $conn->error);
+  die("DEBUG: Error pada Query: '" . $query . "'. Pesan Error: " . $conn->error);
 }
 
 $kriterias = $result->fetch_all(MYSQLI_ASSOC);
@@ -26,12 +26,12 @@ $kriterias = $result->fetch_all(MYSQLI_ASSOC);
 $title = "Data Kriteria";
 
 if (!isset($_SESSION['userdata'])) {
-    header("Location: index.php?page=login");
-    exit;
+  header("Location: index.php?page=login");
+  exit;
 }
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
 
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
@@ -76,39 +76,39 @@ if (!isset($_SESSION['userdata'])) {
 
           <tbody class="text-gray-700">
             <?php if (!empty($kriterias)): ?>
-            <?php foreach ($kriterias as $index => $kriteria): ?>
-            <tr class="hover:bg-gray-50 border-b">
-              <td class="py-4 px-6"><?= $index + 1 ?></td>
-              <td class="py-4 px-6 font-medium"><?= htmlspecialchars($kriteria['kode']) ?></td>
-              <td class="py-4 px-6"><?= htmlspecialchars($kriteria['nama']) ?></td>
-              <td class="py-4 px-6"><?= htmlspecialchars($kriteria['bobot']) ?></td>
-              <td class="py-4 px-6">
-                <span
-                  class="<?= $kriteria['jenis'] === 'benefit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?> text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                  <?= htmlspecialchars($kriteria['jenis']) ?>
-                </span>
-              </td>
-              <td class="py-4 px-6">
-                <div class="flex items-center justify-center gap-3">
-                  <a href="updatekriteria?id=<?= $kriteria['id'] ?>"
-                    class="text-yellow-500 hover:text-yellow-600 transition duration-300" title="Edit">
-                    <i data-lucide="edit" class="w-5 h-5"></i>
-                  </a>
-                  <a href="hapuskriteria?action=delete&id=<?= $kriteria['id'] ?>"
-                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');"
-                    class="text-red-500 hover:text-red-600 transition duration-300" title="Hapus">
-                    <i data-lucide="trash-2" class="w-5 h-5"></i>
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <?php endforeach; ?>
+              <?php foreach ($kriterias as $index => $kriteria): ?>
+                <tr class="hover:bg-gray-50 border-b">
+                  <td class="py-4 px-6"><?= $index + 1 ?></td>
+                  <td class="py-4 px-6 font-medium"><?= htmlspecialchars($kriteria['kode']) ?></td>
+                  <td class="py-4 px-6"><?= htmlspecialchars($kriteria['nama']) ?></td>
+                  <td class="py-4 px-6"><?= htmlspecialchars($kriteria['bobot']) ?></td>
+                  <td class="py-4 px-6">
+                    <span
+                      class="<?= $kriteria['jenis'] === 'benefit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?> text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                      <?= htmlspecialchars($kriteria['jenis']) ?>
+                    </span>
+                  </td>
+                  <td class="py-4 px-6">
+                    <div class="flex items-center justify-center gap-3">
+                      <a href="updatekriteria?id=<?= $kriteria['id'] ?>"
+                        class="text-yellow-500 hover:text-yellow-600 transition duration-300" title="Edit">
+                        <i data-lucide="edit" class="w-5 h-5"></i>
+                      </a>
+                      <a href="hapuskriteria?action=delete&id=<?= $kriteria['id'] ?>"
+                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');"
+                        class="text-red-500 hover:text-red-600 transition duration-300" title="Hapus">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
             <?php else: ?>
-            <tr>
-              <td colspan="6" class="text-center py-10 text-gray-500">
-                <p>Tidak ada data kriteria.</p>
-              </td>
-            </tr>
+              <tr>
+                <td colspan="6" class="text-center py-10 text-gray-500">
+                  <p>Tidak ada data kriteria.</p>
+                </td>
+              </tr>
             <?php endif; ?>
           </tbody>
         </table>
@@ -121,13 +121,13 @@ if (!isset($_SESSION['userdata'])) {
 </div>
 
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function() {
-  const keyword = this.value.toLowerCase();
-  const rows = document.querySelectorAll('tbody tr');
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+    const keyword = this.value.toLowerCase();
+    const rows = document.querySelectorAll('tbody tr');
 
-  rows.forEach(row => {
-    const text = row.textContent.toLowerCase();
-    row.style.display = text.includes(keyword) ? '' : 'none';
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(keyword) ? '' : 'none';
+    });
   });
-});
 </script>

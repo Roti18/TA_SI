@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 include __DIR__ . '/../../functions/func.php';
@@ -9,17 +9,17 @@ $title = "Tambah Data Siswa";
 $classes = ['XI A', 'XI B'];
 
 if (isset($_POST['nis'])) {
-    $data = [
-        'nis'   => $_POST['nis'],
-        'nama'  => $_POST['nama'],
-        'kelas' => $_POST['kelas']
-    ];
-    
-    createData('siswa', $data, 'siswa', 'tambahsiswa');
+  $data = [
+    'nis'   => $_POST['nis'],
+    'nama'  => $_POST['nama'],
+    'kelas' => $_POST['kelas']
+  ];
+
+  createData('siswa', $data, 'siswa', 'tambahsiswa');
 }
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
   <div class="flex-1 p-8">
@@ -49,8 +49,8 @@ if (isset($_POST['nis'])) {
             <select name="kelas"
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
               <option value="" disabled selected>Pilih Kelas</option>
-              <?php foreach($classes as $kelas): ?>
-              <option value="<?= htmlspecialchars($kelas) ?>"><?= htmlspecialchars($kelas) ?></option>
+              <?php foreach ($classes as $kelas): ?>
+                <option value="<?= htmlspecialchars($kelas) ?>"><?= htmlspecialchars($kelas) ?></option>
               <?php endforeach; ?>
             </select>
           </div>

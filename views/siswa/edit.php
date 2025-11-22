@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require __DIR__ . '/../../config/connect.php';
@@ -10,8 +10,8 @@ $title = "Edit Data Siswa";
 
 $student_id = $_GET['id'] ?? null;
 if (!$student_id) {
-    echo "ID tidak valid.";
-    exit;
+  echo "ID tidak valid.";
+  exit;
 }
 
 $stmt = $conn->prepare("SELECT * FROM siswa WHERE id = ?");
@@ -21,28 +21,28 @@ $result = $stmt->get_result();
 $student = $result->fetch_assoc();
 
 if (!$student) {
-    echo "Data siswa tidak ditemukan.";
-    exit;
+  echo "Data siswa tidak ditemukan.";
+  exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'nis'   => $_POST['nis'],
-        'nama'  => $_POST['nama'],
-        'kelas' => $_POST['kelas']
-    ];
-    
-    $where = [
-        'id' => $_POST['id']
-    ];
-    
-    updateData('siswa', $data, $where, 'siswa', 'edit.php?id=' . $_POST['id']);
+  $data = [
+    'nis'   => $_POST['nis'],
+    'nama'  => $_POST['nama'],
+    'kelas' => $_POST['kelas']
+  ];
+
+  $where = [
+    'id' => $_POST['id']
+  ];
+
+  updateData('siswa', $data, $where, 'siswa', 'edit.php?id=' . $_POST['id']);
 }
 
 $classes = ['XI A', 'XI B'];
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
   <div class="flex-1 p-8">
@@ -79,9 +79,9 @@ $classes = ['XI A', 'XI B'];
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
               <option disabled>Pilih Kelas</option>
               <?php foreach ($classes as $kelas): ?>
-              <option value="<?= $kelas ?>" <?= ($kelas == $student['kelas']) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($kelas) ?>
-              </option>
+                <option value="<?= $kelas ?>" <?= ($kelas == $student['kelas']) ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($kelas) ?>
+                </option>
               <?php endforeach; ?>
             </select>
           </div>
