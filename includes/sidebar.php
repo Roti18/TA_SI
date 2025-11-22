@@ -1,8 +1,8 @@
 <?php global $request; ?>
 <?php include "config/helpers.php" ?>
 
-<aside class="w-64 bg-white shadow-lg border-r min-h-screen">
-    <div class="p-6 text-2xl font-bold border-b">
+<aside class="fixed top-0 left-0 w-64 h-screen overflow-y-auto bg-white shadow-lg border-r">
+    <div class="relative p-6 text-2xl font-bold border-b">
         SPK SAW
         <p class="text-sm text-gray-500">Siswa Berprestasi</p>
     </div>
