@@ -3,186 +3,261 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Halaman Tersesat</title>
-    <style>
-        :root {
-            --primary-color: #3f51b5;
-            /* Biru Indigo */
-            --secondary-color: #ff9800;
-            /* Oranye */
-            --background-color: #676767ff;
-            --text-color: #e0e0e0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | Halaman Tidak Ditemukan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+  body {
+    background-color: #f3f4f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+  }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            overflow: hidden;
-        }
+  .eye-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
 
-        .container {
-            max-width: 90%;
-            padding: 20px;
-            z-index: 10;
-        }
+  .eye {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 3px solid #e5e7eb;
+  }
 
-        /* --- Eye Styling --- */
-        .eye-container {
-            margin-bottom: 30px;
-            /* Optional: Memberi sedikit ruang di atas 404 */
-        }
+  .pupil {
+    width: 35px;
+    height: 35px;
+    background: #1f2937;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(0, 0);
+    transition: transform 0.1s linear;
+  }
 
-        .eye {
-            width: 150px;
-            height: 150px;
-            background: white;
-            border-radius: 50%;
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
+  .pupil::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 
-        .pupil {
-            width: 40px;
-            height: 40px;
-            background: black;
-            border-radius: 50%;
-            position: absolute;
-            /* Pupil bergerak relatif terhadap pusat mata, diatur oleh JS */
-            transform: translate(0, 0);
-            transition: transform 0.1s linear;
-            /* Membuat pergerakan lebih halus */
-        }
+  .glitch {
+    font-weight: 900;
+    color: #3b82f6;
+    text-shadow: 3px 3px 0 #60a5fa, -2px -2px 0 #93c5fd;
+    animation: float 3s ease-in-out infinite;
+  }
 
-        /* --- Styling Teks dan Tombol (sama seperti sebelumnya, disingkat) --- */
+  @keyframes float {
 
-        .glitch {
-            font-size: 8vw;
-            /* Dikecilkan agar muat dengan mata */
-            margin: 0;
-            font-weight: 900;
-            position: relative;
-            color: var(--primary-color);
-            text-shadow:
-                0.05em 0 0 #ff00c1,
-                -0.03em -0.04em 0 #00ffff,
-                0.025em 0.05em 0 #fffc00;
-            animation: glitch-anim 2s infinite alternate ease-in-out;
-        }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
 
-        @keyframes glitch-anim {
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 
-            /* ... (keyframes glitch tetap sama) ... */
-            0% {
-                text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00ffff, 0.025em 0.05em 0 #fffc00;
-            }
+  .bg-decoration {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 0;
+  }
 
-            /* ... (dan seterusnya) ... */
-            100% {
-                text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00ffff, 0.025em 0.05em 0 #fffc00;
-            }
-        }
+  .bg-decoration-1 {
+    background: #3b82f6;
+    top: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+  }
 
-        .home-button {
-            display: inline-block;
-            padding: 12px 30px;
-            margin-top: 30px;
-            background-color: var(--secondary-color);
-            color: var(--background-color);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
-        }
+  .bg-decoration-2 {
+    background: #10b981;
+    bottom: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+  }
 
-        .home-button:hover {
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transform: translateY(-3px) scale(1.05);
-        }
+  /* Responsive */
+  @media (min-width: 640px) {
+    .eye {
+      width: 100px;
+      height: 100px;
+    }
 
-        .message {
-            font-size: 1.2em;
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
+    .pupil {
+      width: 40px;
+      height: 40px;
+    }
 
-        .hint {
-            margin-top: 20px;
-            opacity: 0.5;
-            font-size: 0.9em;
-        }
-    </style>
+    .pupil::after {
+      width: 12px;
+      height: 12px;
+      top: 6px;
+      right: 6px;
+    }
+
+    .eye-container {
+      gap: 20px;
+    }
+
+    .bg-decoration-1,
+    .bg-decoration-2 {
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .eye {
+      width: 120px;
+      height: 120px;
+    }
+
+    .pupil {
+      width: 50px;
+      height: 50px;
+    }
+
+    .pupil::after {
+      width: 15px;
+      height: 15px;
+      top: 8px;
+      right: 8px;
+    }
+
+    .eye-container {
+      gap: 30px;
+    }
+
+    .bg-decoration-1,
+    .bg-decoration-2 {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      left: -100px;
+    }
+
+    .bg-decoration-2 {
+      top: auto;
+      left: auto;
+      bottom: -100px;
+      right: -100px;
+    }
+  }
+  </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="eye-container">
-            <div class="eye">
-                <div class="pupil"></div>
-            </div>
+<body class="flex items-center justify-center min-h-screen p-4">
+  <!-- Background Decorations -->
+  <div class="bg-decoration bg-decoration-1"></div>
+  <div class="bg-decoration bg-decoration-2"></div>
+
+  <div class="relative z-10 w-full max-w-lg mx-auto">
+    <div class="bg-white p-6 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl shadow-xl text-center">
+      <!-- Eyes -->
+      <div class="eye-container mb-4 sm:mb-6">
+        <div class="eye">
+          <div class="pupil"></div>
         </div>
+        <div class="eye">
+          <div class="pupil"></div>
+        </div>
+      </div>
 
-        <h1 class="glitch" data-text="404">404</h1>
+      <!-- 404 Text -->
+      <h1 class="glitch text-6xl sm:text-7xl md:text-8xl lg:text-9xl mb-2 sm:mb-4">404</h1>
 
-        <p class="message">
-            Ups! Saya melihat Anda. Halaman yang Anda cari tidak ada.
-        </p>
+      <!-- Messages -->
+      <p class="text-gray-800 text-lg sm:text-xl md:text-2xl font-medium mb-2">
+        Oops! Halaman tidak ditemukan
+      </p>
+      <p class="text-gray-500 text-sm sm:text-base mb-6 sm:mb-8 px-2">
+        Halaman yang Anda cari mungkin sudah dipindahkan, dihapus, atau tidak pernah ada.
+      </p>
 
-        <a href="<?= route('dashboard'); ?>" class="home-button">
-            ← Kembali ke Beranda
-        </a>
+      <!-- Button -->
+      <a href="<?= route('dashboard'); ?>"
+        class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl font-semibold transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Kembali ke Dashboard</span>
+      </a>
 
-        <p class="hint">
-            Gerakkan kursor Anda!
-        </p>
+      <!-- Hint -->
+      <p class="mt-6 sm:mt-8 text-gray-400 text-xs sm:text-sm flex items-center justify-center gap-1">
+        <i data-lucide="mouse-pointer" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Gerakkan kursor Anda dan lihat mata mengikuti!</span>
+        <span class="sm:hidden">Sentuh layar dan lihat mata mengikuti!</span>
+      </p>
     </div>
-    <script>
-        document.addEventListener('mousemove', (e) => {
-            // 1. Ambil elemen pupil (bagian yang bergerak)
-            const pupil = document.querySelector('.pupil');
-            // Ambil elemen mata (tempat pupil bergerak)
-            const eye = document.querySelector('.eye');
+  </div>
 
-            // 2. Dapatkan posisi tengah mata
-            // getBoundingClientRect memberikan koordinat relatif terhadap viewport
-            const rect = eye.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+  <script>
+  lucide.createIcons();
 
-            // 3. Hitung sudut (angle) kursor dari pusat mata
-            // Menggunakan Atan2 (Arc Tangent 2) untuk mendapatkan sudut dalam radian
-            // Parameter: (y_cursor - y_center), (x_cursor - x_center)
-            const deltaX = e.clientX - centerX;
-            const deltaY = e.clientY - centerY;
-            const angleRad = Math.atan2(deltaY, deltaX);
+  function moveEyes(x, y) {
+    const pupils = document.querySelectorAll('.pupil');
+    const eyes = document.querySelectorAll('.eye');
 
-            // 4. Konversi radian ke derajat (optional, tapi kadang lebih intuitif)
-            // const angleDeg = angleRad * (180 / Math.PI); 
+    eyes.forEach((eye, index) => {
+      const rect = eye.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-            // 5. Hitung posisi pupil berdasarkan sudut (agar pupil bergerak di sepanjang lingkaran kecil di dalam mata)
-            // Kita batasi radius pergerakan (misal 20px) agar pupil tetap di dalam bola mata.
-            const radius = 20;
-            const pupilX = Math.cos(angleRad) * radius;
-            const pupilY = Math.sin(angleRad) * radius;
+      const deltaX = x - centerX;
+      const deltaY = y - centerY;
+      const angleRad = Math.atan2(deltaY, deltaX);
 
-            // 6. Terapkan transformasi ke pupil
-            pupil.style.transform = `translate(${pupilX}px, ${pupilY}px)`;
-        });
-    </script>
+      // Responsive radius
+      const eyeWidth = rect.width;
+      const radius = eyeWidth * 0.2;
+
+      const pupilX = Math.cos(angleRad) * radius;
+      const pupilY = Math.sin(angleRad) * radius;
+
+      pupils[index].style.transform = `translate(${pupilX}px, ${pupilY}px)`;
+    });
+  }
+
+  // Mouse move (desktop)
+  document.addEventListener('mousemove', (e) => {
+    moveEyes(e.clientX, e.clientY);
+  });
+
+  // Touch move (mobile)
+  document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    moveEyes(touch.clientX, touch.clientY);
+  });
+
+  // Touch start (mobile tap)
+  document.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    moveEyes(touch.clientX, touch.clientY);
+  });
+  </script>
 </body>
 
 </html>
