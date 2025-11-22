@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require __DIR__ . '/../../config/connect.php';
@@ -11,8 +11,8 @@ $title = "Edit Sub Kriteria";
 $sub_id = $_GET['id'] ?? null;
 
 if (!$sub_id) {
-    echo "ID tidak valid.";
-    exit;
+  echo "ID tidak valid.";
+  exit;
 }
 
 $stmt = $conn->prepare("SELECT * FROM sub_kriteria WHERE id = ?");
@@ -21,8 +21,8 @@ $stmt->execute();
 $sub = $stmt->get_result()->fetch_assoc();
 
 if (!$sub) {
-    echo "Sub kriteria tidak ditemukan.";
-    exit;
+  echo "Sub kriteria tidak ditemukan.";
+  exit;
 }
 
 $stmt = $conn->prepare("SELECT * FROM kriteria WHERE id = ?");
@@ -31,20 +31,20 @@ $stmt->execute();
 $kriteria = $stmt->get_result()->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'nama'      => $_POST['nama'],
-        'min_value' => $_POST['min_value'] !== '' ? $_POST['min_value'] : null,
-        'max_value' => $_POST['max_value'] !== '' ? $_POST['max_value'] : null,
-        'rating'    => $_POST['rating']
-    ];
-    
-    $where = ['id' => $_POST['id']];
-    
-    updateData('sub_kriteria', $data, $where, 'sub-kriteria', 'updatesub-kriteria?id=' . $_POST['id']);
+  $data = [
+    'nama'      => $_POST['nama'],
+    'min_value' => $_POST['min_value'] !== '' ? $_POST['min_value'] : null,
+    'max_value' => $_POST['max_value'] !== '' ? $_POST['max_value'] : null,
+    'rating'    => $_POST['rating']
+  ];
+
+  $where = ['id' => $_POST['id']];
+
+  updateData('sub_kriteria', $data, $where, 'sub-kriteria', 'updatesub-kriteria?id=' . $_POST['id']);
 }
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
 

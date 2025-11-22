@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 require __DIR__ . '/../../config/connect.php';
 include __DIR__ . '/../../functions/func.php';
@@ -9,8 +9,8 @@ $title = "Edit Data Kriteria";
 
 $kriteria_id = $_GET['id'] ?? null;
 if (!$kriteria_id) {
-    echo "ID tidak valid.";
-    exit;
+  echo "ID tidak valid.";
+  exit;
 }
 
 $stmt = $conn->prepare("SELECT * FROM kriteria WHERE id = ?");
@@ -20,29 +20,29 @@ $result = $stmt->get_result();
 $kriteria = $result->fetch_assoc();
 
 if (!$kriteria) {
-    echo "Data kriteria tidak ditemukan.";
-    exit;
+  echo "Data kriteria tidak ditemukan.";
+  exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'kode'  => $_POST['kode'],
-        'nama'  => $_POST['nama'],
-        'bobot' => $_POST['bobot'],
-        'jenis' => $_POST['jenis']
-    ];
-    
-    $where = [
-        'id' => $_POST['id']
-    ];
-    
-    updateData('kriteria', $data, $where, 'kriteria', 'updatekriteria?id=' . $_POST['id']);
+  $data = [
+    'kode'  => $_POST['kode'],
+    'nama'  => $_POST['nama'],
+    'bobot' => $_POST['bobot'],
+    'jenis' => $_POST['jenis']
+  ];
+
+  $where = [
+    'id' => $_POST['id']
+  ];
+
+  updateData('kriteria', $data, $where, 'kriteria', 'updatekriteria?id=' . $_POST['id']);
 }
 
 $jenisList = ['benefit', 'cost'];
 ?>
 
-<div class="min-h-screen flex bg-gray-100">
+<div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
   <?php include "includes/header.php"; ?>
 
@@ -88,9 +88,9 @@ $jenisList = ['benefit', 'cost'];
               class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 bg-white" required>
               <option disabled>Pilih Jenis</option>
               <?php foreach ($jenisList as $jenis): ?>
-              <option value="<?= $jenis ?>" <?= ($jenis == $kriteria['jenis']) ? 'selected' : '' ?>>
-                <?= ucfirst($jenis) ?>
-              </option>
+                <option value="<?= $jenis ?>" <?= ($jenis == $kriteria['jenis']) ? 'selected' : '' ?>>
+                  <?= ucfirst($jenis) ?>
+                </option>
               <?php endforeach; ?>
             </select>
           </div>
