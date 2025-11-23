@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 require __DIR__ . '/../../config/connect.php';
@@ -11,12 +11,12 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if ($conn->connect_error) {
-    die("DEBUG: Koneksi Database Gagal: " . $conn->connect_error);
+  die("DEBUG: Koneksi Database Gagal: " . $conn->connect_error);
 }
 
 if (!isset($_SESSION['userdata'])) {
-    header("Location: index.php?page=login");
-    exit;
+  header("Location: index.php?page=login");
+  exit;
 }
 
 $title = "Hasil Ranking";
@@ -33,7 +33,8 @@ $siswas = $resultSiswa->fetch_all(MYSQLI_ASSOC);
 
 // Ambil semua data penilaian
 $queryPenilaian = "
-    SELECT p.*, s.nama as siswa_nama, s.nis, k.id as kriteria_id, k.nama as kriteria_nama, k.jenis, k.bobot
+    SELECT p.*, s.nama as siswa_nama, s.nis, 
+           k.id as kriteria_id, k.nama as kriteria_nama, k.jenis, k.bobot
     FROM penilaian p
     JOIN siswa s ON p.siswa_id = s.id
     JOIN kriteria k ON p.kriteria_id = k.id
@@ -42,65 +43,93 @@ $queryPenilaian = "
 $resultPenilaian = $conn->query($queryPenilaian);
 $penilaians = $resultPenilaian->fetch_all(MYSQLI_ASSOC);
 
-// Organisir data penilaian per siswa dan kriteria
+// Matriks X
 $matrixPenilaian = [];
 foreach ($penilaians as $p) {
-    $matrixPenilaian[$p['siswa_id']][$p['kriteria_id']] = $p['rating'];
+  $matrixPenilaian[$p['siswa_id']][$p['kriteria_id']] = $p['rating'];
 }
 
-// Hitung nilai max dan min untuk setiap kriteria
+// Hitung max/min tiap kriteria
 $maxMinKriteria = [];
 foreach ($kriterias as $k) {
-    $ratings = array_column(
-        array_filter($penilaians, function($p) use ($k) {
-            return $p['kriteria_id'] == $k['id'];
-        }),
-        'rating'
-    );
-    
-    if (!empty($ratings)) {
-        $maxMinKriteria[$k['id']] = [
-            'max' => max($ratings),
-            'min' => min($ratings)
-        ];
-    }
+  $ratings = array_column(
+    array_filter($penilaians, fn($p) => $p['kriteria_id'] == $k['id']),
+    'rating'
+  );
+
+  if (!empty($ratings)) {
+    $maxMinKriteria[$k['id']] = [
+      'max' => max($ratings),
+      'min' => min($ratings)
+    ];
+  }
 }
 
-// Normalisasi Matrix (X)
+// Normalisasi R
 $matrixNormalisasi = [];
 foreach ($siswas as $siswa) {
-    foreach ($kriterias as $kriteria) {
-        if (isset($matrixPenilaian[$siswa['id']][$kriteria['id']])) {
-            $rating = $matrixPenilaian[$siswa['id']][$kriteria['id']];
-            
-            // Benefit: Xij / Max
-            // Cost: Min / Xij
-            if ($kriteria['jenis'] == 'benefit') {
-                $normalized = $rating / $maxMinKriteria[$kriteria['id']]['max'];
-            } else {
-                $normalized = $maxMinKriteria[$kriteria['id']]['min'] / $rating;
-            }
-            
-            $matrixNormalisasi[$siswa['id']][$kriteria['id']] = round($normalized, 4);
-        }
+  foreach ($kriterias as $kriteria) {
+
+    if (isset($matrixPenilaian[$siswa['id']][$kriteria['id']])) {
+      $rating = $matrixPenilaian[$siswa['id']][$kriteria['id']];
+
+      if ($kriteria['jenis'] == 'benefit') {
+        $normalized = $rating / $maxMinKriteria[$kriteria['id']]['max'];
+      } else {
+        $normalized = $maxMinKriteria[$kriteria['id']]['min'] / $rating;
+      }
+
+      $matrixNormalisasi[$siswa['id']][$kriteria['id']] = round($normalized, 4);
     }
+  }
 }
 
-// Hitung Preferensi (Vi) = Sum(Wj * Rij)
+// Hitung Preferensi (Vi)
 $hasilPreferensi = [];
 foreach ($siswas as $siswa) {
-    $totalPreferensi = 0;
-    foreach ($kriterias as $kriteria) {
-        if (isset($matrixNormalisasi[$siswa['id']][$kriteria['id']])) {
-            $totalPreferensi += $kriteria['bobot'] * $matrixNormalisasi[$siswa['id']][$kriteria['id']];
-        }
+  $total = 0;
+
+  foreach ($kriterias as $k) {
+    if (isset($matrixNormalisasi[$siswa['id']][$k['id']])) {
+      $Rij = $matrixNormalisasi[$siswa['id']][$k['id']];
+      $Wj  = $k['bobot'];
+      $total += ($Rij * $Wj);
     }
-    $hasilPreferensi[$siswa['id']] = round($totalPreferensi, 4);
+  }
+
+  $hasilPreferensi[$siswa['id']] = round($total, 2);
 }
 
 // Ranking
 arsort($hasilPreferensi);
+
+// =============================================
+// SIMPAN KE TABEL hasil_akhir
+// =============================================
+
+// // Bersihkan tabel agar tidak dobel
+$conn->query("TRUNCATE TABLE hasil_akhir");
+
+$rank = 1;
+
+foreach ($hasilPreferensi as $siswa_id => $nilai_preferensi) {
+
+  // format sesuai decimal(6,3)
+  $nilaiFormat = number_format($nilai_preferensi, 2, '.', '');
+
+  $stmt = $conn->prepare("
+        INSERT INTO hasil_akhir (siswa_id, nilai, ranking)
+        VALUES (?, ?, ?)
+    ");
+
+  $stmt->bind_param("idi", $siswa_id, $nilaiFormat, $rank);
+  $stmt->execute();
+
+  $rank++;
+}
+
 ?>
+
 
 <div class="ml-64 flex min-h-screen bg-gray-100">
   <?php include 'includes/sidebar.php'; ?>
@@ -150,14 +179,14 @@ arsort($hasilPreferensi);
             </tr>
           </thead>
           <tbody class="text-gray-700" id="rankingTable">
-            <?php 
+            <?php
             $rank = 1;
-            foreach ($hasilPreferensi as $siswa_id => $preferensi): 
-              $siswa = array_filter($siswas, function($s) use ($siswa_id) {
+            foreach ($hasilPreferensi as $siswa_id => $preferensi):
+              $siswa = array_filter($siswas, function ($s) use ($siswa_id) {
                 return $s['id'] == $siswa_id;
               });
               $siswa = reset($siswa);
-              
+
               if ($rank == 1) {
                 $badgeColor = 'bg-yellow-500';
                 $status = '<span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full">🏆 Juara 1</span>';
@@ -172,27 +201,27 @@ arsort($hasilPreferensi);
                 $status = '<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Peserta</span>';
               }
             ?>
-            <tr class="hover:bg-gray-50 border-b ranking-row">
-              <td class="py-3 px-4 border text-center">
-                <span class="<?= $badgeColor ?> text-white text-sm font-bold px-3 py-1 rounded-full">
-                  #<?= $rank ?>
-                </span>
-              </td>
-              <td class="py-3 px-4 border text-center">
-                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
-                  <?= htmlspecialchars($siswa['nis']) ?>
-                </span>
-              </td>
-              <td class="py-3 px-4 border font-semibold text-center"><?= htmlspecialchars($siswa['nama']) ?></td>
-              <td class="py-3 px-4 border text-center">
-                <span class="bg-green-100 text-green-800 text-sm font-bold px-3 py-1 rounded-full">
-                  <?= htmlspecialchars($preferensi) ?>
-                </span>
-              </td>
-            </tr>
-            <?php 
-            $rank++;
-            endforeach; 
+              <tr class="hover:bg-gray-50 border-b ranking-row">
+                <td class="py-3 px-4 border text-center">
+                  <span class="<?= $badgeColor ?> text-white text-sm font-bold px-3 py-1 rounded-full">
+                    #<?= $rank ?>
+                  </span>
+                </td>
+                <td class="py-3 px-4 border text-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+                    <?= htmlspecialchars($siswa['nis']) ?>
+                  </span>
+                </td>
+                <td class="py-3 px-4 border font-semibold text-center"><?= htmlspecialchars($siswa['nama']) ?></td>
+                <td class="py-3 px-4 border text-center">
+                  <span class="bg-green-100 text-green-800 text-sm font-bold px-3 py-1 rounded-full">
+                    <?= htmlspecialchars($preferensi, 2) ?>
+                  </span>
+                </td>
+              </tr>
+            <?php
+              $rank++;
+            endforeach;
             ?>
           </tbody>
         </table>
@@ -205,13 +234,13 @@ arsort($hasilPreferensi);
 </div>
 
 <script>
-document.getElementById('searchInput').addEventListener('keyup', function() {
-  const keyword = this.value.toLowerCase();
-  const rows = document.querySelectorAll('.ranking-row');
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+    const keyword = this.value.toLowerCase();
+    const rows = document.querySelectorAll('.ranking-row');
 
-  rows.forEach(row => {
-    const text = row.textContent.toLowerCase();
-    row.style.display = text.includes(keyword) ? '' : 'none';
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(keyword) ? '' : 'none';
+    });
   });
-});
 </script>
